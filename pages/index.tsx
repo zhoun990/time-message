@@ -146,7 +146,7 @@ export default function Home() {
 							required
 							className="w-[95%] mx-auto my-3 p-2 block rounded border"
 							rows={7}
-							placeholder="例(指定日時: 1/1 0:00)：本年も大変お世話になりました。来年もよろしくお願いいたします。"
+							placeholder={`例(指定日時: 1/1 0:00)：\n本年も大変お世話になりました。来年もよろしくお願いいたします。`}
 						/>
 						<div className="w-[95%] mx-auto my-5 flex flex-col items-center">
 							<img src={preview.beforePic} alt={""} className="w-2/3 mb-3" />
@@ -169,7 +169,7 @@ export default function Home() {
 							required
 							className="w-[95%] mx-auto my-3 p-2 block rounded border"
 							rows={7}
-							placeholder="例(指定日時: 1/1 0:00)：明けましておめでとうございます。今年もよろしくお願いします。"
+							placeholder={`例(指定日時: 1/1 0:00)：\n明けましておめでとうございます。今年もよろしくお願いします。`}
 						/>
 						<div className="w-[95%] mx-auto my-5 flex flex-col items-center">
 							<img src={preview.afterPic} alt={""} className="w-2/3 mb-3" />
