@@ -7,6 +7,7 @@ import { db } from "../utils/firebase";
 
 const App = () => {
 	const [data, setData] = useState(undefined);
+	const [loading, setLoading] = useState(true);
 	const router = useRouter();
 	const id = router.query["id"];
 	useEffect(() => {
@@ -20,30 +21,37 @@ const App = () => {
 					Timestamp.now() >
 					new Timestamp(saved.date.seconds, saved.date.nanoseconds);
 				console.log("^_^ Log \n file: [id].tsx:26 \n isAfter", isAfter);
-				if (
-					(isAfter && saved.beforeMessage)
-				) {					console.log("^_^ Log \n file: [id].tsx:30 \n isAfter && saved.beforeMessage", isAfter && saved.beforeMessage);
+				if (isAfter && saved.beforeMessage) {
+					console.log(
+						"^_^ Log \n file: [id].tsx:30 \n isAfter && saved.beforeMessage",
+						isAfter && saved.beforeMessage
+					);
 
 					localStorage.removeItem(id);
 					setData(undefined);
 				} else setData(saved);
+				setLoading(false);
 			} else
-				getDoc(doc(db, "message", id)).then((docSnap) => {
-					setData(docSnap.data() as any);
-					if (docSnap.exists()) {
-						const isAfter = Timestamp.now() > docSnap.data().date;
-						const saveData = docSnap.data();
-						if (isAfter) {
-							delete saveData.beforeMessage;
-							delete saveData.beforePic;
-						} else {
-							delete saveData.afterMessage;
-							delete saveData.afterPic;
+				getDoc(doc(db, "message", id))
+					.then((docSnap) => {
+						setData(docSnap.data() as any);
+						if (docSnap.exists()) {
+							const isAfter = Timestamp.now() > docSnap.data().date;
+							const saveData = docSnap.data();
+							if (isAfter) {
+								delete saveData.beforeMessage;
+								delete saveData.beforePic;
+							} else {
+								delete saveData.afterMessage;
+								delete saveData.afterPic;
+							}
+							localStorage.setItem(id, JSON.stringify(saveData));
+							deleteDoc(doc(db, "message", id));
 						}
-						localStorage.setItem(id, JSON.stringify(saveData));
-						deleteDoc(doc(db, "message", id));
-					}
-				});
+					})
+					.finally(() => {
+						setLoading(false);
+					});
 		}
 	}, [id]);
 
@@ -55,7 +63,7 @@ const App = () => {
     <meta name="viewport" content="width=device-width, initial-scale=1" /> */}
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<Preview data={data} />
+			{!loading && <Preview data={data} />}
 			<footer className="max-w-screen-2xl px-4 md:px-8 mx-auto">
 				<div className="flex flex-col items-center border-t pt-6">
 					{/* nav - start */}
