@@ -75,7 +75,7 @@ export default function Home() {
 							type="text"
 							readOnly
 							value={preview.url}
-							className="p-3 rounded w-2/3"
+							className="p-3 rounded w-2/3 border"
 							onClick={() => {
 								if (preview.url) {
 									navigator.clipboard.writeText(preview.url);
@@ -86,7 +86,7 @@ export default function Home() {
 					</div>
 
 					<div className="mx-5 mt-[200px]">
-						<p className="text-center text-3xl p-3 mb-4">
+						<p className="text-center text-xl p-3 mb-4">
 							指定日時より前にURLが開かれた場合に表示するメッセージのプレビュー
 						</p>
 						<Preview
@@ -98,7 +98,7 @@ export default function Home() {
 						/>
 					</div>
 					<div className="mx-5 my-[50px]">
-						<p className="text-center text-3xl p-3 mb-4">
+						<p className="text-center text-xl p-3 mb-4">
 							指定日時を過ぎてからURLが開かれた場合に表示するメッセージのプレビュー
 						</p>
 						<Preview
@@ -114,7 +114,7 @@ export default function Home() {
 					<div className="text-lg mx-auto my-3 flex justify-center p-3">
 						このサイトでは、見るタイミングによって2パターンの異なるメッセージが表示されるページを作成することができます。
 						<br />
-						日時を指定して、表示されるのがその時間より前か後かで表示するメッセージを変えることができます。
+						日時を指定して、その時間より前か後かで表示するメッセージを変えることができます。
 						<br />
 						一度表示されたメッセージは削除されるため、2パターンのメッセージを両方見ることはできません。
 						<br />
