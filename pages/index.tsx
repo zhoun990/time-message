@@ -133,7 +133,7 @@ export default function Home() {
 							const ref = doc(collection(db, "message"));
 							delete obj.url;
 							setDoc(ref, obj).then(() => {
-								setDoc(doc(collection(db, "message-before")), obj);
+								setDoc(doc(db, "message-before", ref.id), obj);
 								setPreview({ ...obj, url: `${window.origin}/${ref.id}` });
 								window.scrollTo({ top: 0, behavior: "smooth" });
 							});
