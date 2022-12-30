@@ -17,13 +17,13 @@ const App = () => {
 				console.log("^_^ Log \n file: [id].tsx:23 \n saved", saved);
 
 				const isAfter =
-					Timestamp.now() >=
+					Timestamp.now() >
 					new Timestamp(saved.date.seconds, saved.date.nanoseconds);
 				console.log("^_^ Log \n file: [id].tsx:26 \n isAfter", isAfter);
 				if (
-					(isAfter && saved.beforeMessage) ||
-					(!isAfter && saved.afterMessage)
-				) {
+					(isAfter && saved.beforeMessage)
+				) {					console.log("^_^ Log \n file: [id].tsx:30 \n isAfter && saved.beforeMessage", isAfter && saved.beforeMessage);
+
 					localStorage.removeItem(id);
 					setData(undefined);
 				} else setData(saved);
@@ -31,7 +31,7 @@ const App = () => {
 				getDoc(doc(db, "message", id)).then((docSnap) => {
 					setData(docSnap.data() as any);
 					if (docSnap.exists()) {
-						const isAfter = Timestamp.now() >= docSnap.data().date;
+						const isAfter = Timestamp.now() > docSnap.data().date;
 						const saveData = docSnap.data();
 						if (isAfter) {
 							delete saveData.beforeMessage;

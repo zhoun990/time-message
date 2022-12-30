@@ -78,8 +78,9 @@ export default function Home() {
 							className="p-3 rounded w-2/3 border"
 							onClick={() => {
 								if (preview.url) {
-									navigator.clipboard.writeText(preview.url);
-									alert("URLをクリップボードにコピーしました。");
+									navigator.clipboard.writeText(preview.url).then(() => {
+										alert("URLをクリップボードにコピーしました。");
+									});
 								}
 							}}
 						/>

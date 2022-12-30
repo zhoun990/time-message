@@ -9,7 +9,9 @@ export const Preview = ({
 	data?: Message;
 	hideCreate?: boolean;
 }) => {
-	const isAfter = data ? Timestamp.now() >= data?.date : false;
+	const isAfter = data
+		? Timestamp.now() > new Timestamp(data.date.seconds, data.date.nanoseconds)
+		: false;
 	console.log("^_^ Log \n file: Preview.tsx:16 \n isAfter", isAfter);
 	const pic = isAfter ? data?.afterPic : data?.beforePic;
 	return (
