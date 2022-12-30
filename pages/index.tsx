@@ -57,13 +57,14 @@ export default function Home() {
 				<main className="flex flex-col">
 					<div className="text-xl mx-auto my-3 flex flex-col justify-center p-3">
 						下記のURLにアクセスするとメッセージが表示されます。
-						<br />
-						メッセージの表示は一度きりです。
 						<div>
-							<span className="underline decoration-[red]">
-								一度表示されたメッセージは削除
-							</span>
-							されます。
+							メッセージの表示は
+							<span className="underline decoration-[red]">一度きり</span>です。
+						</div>
+						<div>
+							一度表示されたメッセージはデータベースから
+							<span className="underline decoration-[red]">削除</span>
+							され、同一端末以外では表示できなくなります。
 						</div>
 					</div>
 					<div className="text-center font-bold mb-1 mt-10">
@@ -75,6 +76,12 @@ export default function Home() {
 							readOnly
 							value={preview.url}
 							className="p-3 rounded w-2/3"
+							onClick={() => {
+								if (preview.url) {
+									navigator.clipboard.writeText(preview.url);
+									alert("URLをクリップボードにコピーしました。");
+								}
+							}}
 						/>
 					</div>
 
@@ -104,7 +111,7 @@ export default function Home() {
 				</main>
 			) : (
 				<main className="">
-					<div className="text-xl mx-auto my-3 flex justify-center p-3">
+					<div className="text-lg mx-auto my-3 flex justify-center p-3">
 						このサイトでは、見るタイミングによって2パターンの異なるメッセージが表示されるページを作成することができます。
 						<br />
 						日時を指定して、表示されるのがその時間より前か後かで表示するメッセージを変えることができます。
@@ -125,6 +132,7 @@ export default function Home() {
 							const ref = doc(collection(db, "message"));
 							delete obj.url;
 							setDoc(ref, obj).then(() => {
+								setDoc(doc(collection(db, "message-before")), obj);
 								setPreview({ ...obj, url: `${window.origin}/${ref.id}` });
 								window.scrollTo({ top: 0, behavior: "smooth" });
 							});
@@ -136,8 +144,9 @@ export default function Home() {
 						</div>
 						<textarea
 							required
-							className="w-[95%] mx-auto my-3 p-2 block rounded"
+							className="w-[95%] mx-auto my-3 p-2 block rounded border"
 							rows={7}
+							placeholder="例(指定日時: 1/1 0:00)：本年も大変お世話になりました。来年もよろしくお願いいたします。"
 						/>
 						<div className="w-[95%] mx-auto my-5 flex flex-col items-center">
 							<img src={preview.beforePic} alt={""} className="w-2/3 mb-3" />
@@ -158,8 +167,9 @@ export default function Home() {
 						</div>
 						<textarea
 							required
-							className="w-[95%] mx-auto my-3 p-2 block rounded"
+							className="w-[95%] mx-auto my-3 p-2 block rounded border"
 							rows={7}
+							placeholder="例(指定日時: 1/1 0:00)：明けましておめでとうございます。今年もよろしくお願いします。"
 						/>
 						<div className="w-[95%] mx-auto my-5 flex flex-col items-center">
 							<img src={preview.afterPic} alt={""} className="w-2/3 mb-3" />
@@ -177,13 +187,17 @@ export default function Home() {
 						</div>
 						<div className="text-center font-bold my-3 mt-10">日時を指定</div>
 						<div className="mx-auto my-3 flex justify-center">
-							<input type="datetime-local" required className="p-2 rounded" />
+							<input
+								type="datetime-local"
+								required
+								className="p-2 rounded border"
+							/>
 						</div>
 						<div className="text-center font-bold my-3 mt-10">
 							表示するあなたの名前
 						</div>
 						<div className="mx-auto my-3 flex justify-center">
-							<input type="text" required className="p-2 rounded" />
+							<input type="text" required className="p-2 rounded border" />
 						</div>
 						<div className="my-10 flex justify-center items-center h-[100px]">
 							<button className="border p-3 rounded-lg px-5 hover:border-2 hover:text-blue-300 hover:border-blue-300">

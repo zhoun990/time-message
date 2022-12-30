@@ -6,10 +6,10 @@ export const Preview = ({
 	data,
 	hideCreate,
 }: {
-	data: Message;
+	data?: Message;
 	hideCreate?: boolean;
 }) => {
-	const isAfter = Timestamp.now() > data?.date;
+	const isAfter = data ? Timestamp.now() >= data?.date : false;
 	console.log("^_^ Log \n file: Preview.tsx:16 \n isAfter", isAfter);
 	const pic = isAfter ? data?.afterPic : data?.beforePic;
 	return (
