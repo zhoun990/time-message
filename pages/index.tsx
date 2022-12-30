@@ -80,9 +80,26 @@ export default function Home() {
 
 					<div className="mx-5 mt-[200px]">
 						<p className="text-center text-3xl p-3 mb-4">
-							メッセージのプレビュー
+							指定日時より前にURLが開かれた場合に表示するメッセージのプレビュー
 						</p>
-						<Preview data={preview} />
+						<Preview
+							data={{
+								...preview,
+								date: Timestamp.fromDate(new Date(Date.now() + 1000 * 24)),
+							}}
+							hideCreate
+						/>
+					</div>
+					<div className="mx-5 my-[50px]">
+						<p className="text-center text-3xl p-3 mb-4">
+							指定日時を過ぎてからURLが開かれた場合に表示するメッセージのプレビュー
+						</p>
+						<Preview
+							data={{
+								...preview,
+								date: Timestamp.fromDate(new Date(Date.now() - 1000 * 24)),
+							}}
+						/>
 					</div>
 				</main>
 			) : (
